@@ -1,5 +1,5 @@
 # Import the common functions
-. .\session-functions.ps1"
+. .\session-functions.ps1
 
 # Define the path to the profile script
 $profilePath = $PROFILE
