@@ -199,7 +199,7 @@ function Undo-Session {
     Write-Host "Session removed. The main branch is checked out and reset to the remote state."
 }
 
-Show-Session-Commands {
+function Show-Session-Commands {
 
     Show-Version
 
