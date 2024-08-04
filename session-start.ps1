@@ -1,5 +1,5 @@
 # Import the common functions
-. "$env:USERPROFILE\Documents\WindowsPowerShell\session-functions.ps1"
+. .\session-functions.ps1
 
 # Get the session branch environment variable name
 $envVarName = Get-SessionBranchEnvVarName
