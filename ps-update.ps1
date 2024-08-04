@@ -1,23 +1,5 @@
-
-# Function to download a script from GitHub
-function Download-ScriptFromGitHub {
-    param (
-        [string]$scriptName,
-        [string]$targetPath
-    )
-
-    # Define the URL of the GitHub repository containing the session scripts
-    $repoUrl = "https://raw.githubusercontent.com/yale-redcap/yes3-powershell-scripts/main"
-
-    $scriptUrl = "$repoUrl/$scriptName"
-    $scriptPath = "$targetPath\$scriptName"
-    try {
-        Invoke-WebRequest -Uri $scriptUrl -OutFile $scriptPath -ErrorAction Stop
-        Write-Host "Downloaded: $scriptName to $scriptPath"
-    } catch {
-        Write-Host "Failed to download $scriptName from $scriptUrl"
-    }
-}
+# Import the common functions
+. .\"$env:USERPROFILE\Documents\WindowsPowerShell\session-functions.ps1"
 
 # Define the path to the profile script
 $profilePath = $PROFILE
