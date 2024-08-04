@@ -1,4 +1,21 @@
 # session-functions.ps1
+# Function to download a script from GitHub
+function Invoke-DownloadScriptFromGitHub {
+    param (
+        [string]$scriptName,
+        [string]$targetDirectory
+    )
+
+    $repoUrl = "https://raw.githubusercontent.com/yale-redcap/yes3-powershell-scripts/main"
+    $scriptUrl = "$repoUrl/$scriptName"
+    $scriptPath = "$targetDirectory\$scriptName"
+    try {
+        Invoke-WebRequest -Uri $scriptUrl -OutFile $scriptPath -ErrorAction Stop
+        Write-Host "Downloaded: $scriptName to $scriptPath"
+    } catch {
+        Write-Host "Failed to download $scriptName from $scriptUrl"
+    }
+}
 
 # Function to get the current timestamp and convert it to base 36
 function Get-Base36Timestamp {
