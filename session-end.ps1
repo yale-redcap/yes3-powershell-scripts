@@ -1,7 +1,8 @@
 # session-end.ps1
 
 # Import the common functions
-. session-functions.ps1
+$scriptDirectory = Split-Path -Parent $PROFILE
+. "$scriptDirectory\session-functions.ps1"
 
 # Retrieve the session branch name from the environment variable
 $envVarName = Get-SessionBranchEnvVarName

@@ -1,5 +1,6 @@
 # Import the common functions
-. "$env:USERPROFILE\Documents\WindowsPowerShell\session-functions.ps1"
+$scriptDirectory = Split-Path -Parent $PROFILE
+. "$scriptDirectory\session-functions.ps1"
 
 # Get the session branch environment variable name
 $envVarName = Get-SessionBranchEnvVarName

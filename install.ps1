@@ -1,6 +1,6 @@
 
 # Function to download a script from GitHub
-function Download-ScriptFromGitHub {
+function Invoke-DownloadScriptFromGitHub {
     param (
         [string]$scriptName,
         [string]$targetDirectory
@@ -41,7 +41,7 @@ if (!(Test-Path -Path $scriptDirectory)) {
 
 # Download each script from the GitHub repository
 foreach ($script in $scripts) {
-    Download-ScriptFromGitHub -scriptName $script -targetDirectory $scriptDirectory
+    Invoke-DownloadScriptFromGitHub -scriptName $script -targetDirectory $scriptDirectory
 }
 
 # Create the profile script if it doesn't exist
