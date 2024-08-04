@@ -1,5 +1,20 @@
-# import the function library
-. .\session-functions.ps1
+# Function to download a script from GitHub
+function Invoke-DownloadScriptFromGitHub {
+    param (
+        [string]$scriptName,
+        [string]$targetDirectory
+    )
+
+    $repoUrl = "https://raw.githubusercontent.com/yale-redcap/yes3-powershell-scripts/main"
+    $scriptUrl = "$repoUrl/$scriptName"
+    $scriptPath = "$targetDirectory\$scriptName"
+    try {
+        Invoke-WebRequest -Uri $scriptUrl -OutFile $scriptPath -ErrorAction Stop
+        Write-Host "Downloaded: $scriptName to $scriptPath"
+    } catch {
+        Write-Host "Failed to download $scriptName from $scriptUrl"
+    }
+}
 
 # Define the path to the PS profile script
 $profilePath = $PROFILE
@@ -73,7 +88,7 @@ foreach ($alias in $aliases) {
 
 $modulePath = "$scriptDirectory\session-functions.psm1"
 
-if ( $profileContent -notmatch $modulePath) {
+if ( $profileContent -notmatch [regex]::Escape("$modulePath") ){
     Add-Content -Path $profilePath -Value "Import-Module `"$modulePath`""
     Write-Host "Added Import-Module statement for $modulePath"
 } else {
