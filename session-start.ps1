@@ -1,5 +1,7 @@
 # session-start.ps1 is a PowerShell script that is used to start a new session branch in a Git repository.
 
+Show-Version
+
 # Get the session branch environment variable name
 $envVarName = Get-SessionBranchEnvVarName
 

@@ -5,7 +5,9 @@
 $version = "1.0.0"
 $versionDate = "August 2024"
 
-Write-Host "YES3 session scripts, version $version ($versionDate)"
+function Show-Version {
+    Write-Host "YES3 session scripts, version $version ($versionDate)"
+}
 
 # Function to get the current timestamp and convert it to base 36
 function Get-Base36Timestamp {

@@ -1,5 +1,7 @@
 # session-scrap.ps1
 
+Show-Version
+
 # Retrieve the session branch name from the environment variable
 $envVarName = Get-SessionBranchEnvVarName
 

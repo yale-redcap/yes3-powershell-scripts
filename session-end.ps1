@@ -1,5 +1,7 @@
 # session-end.ps1
 
+Show-Version
+
 # Retrieve the session branch name from the environment variable
 $envVarName = Get-SessionBranchEnvVarName
 $sessionBranch = [System.Environment]::GetEnvironmentVariable($envVarName, [System.EnvironmentVariableTarget]::User)
