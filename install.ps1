@@ -43,15 +43,15 @@ $profileContent = if (Test-Path -Path $profilePath) {
 }
 
 # Check if the custom path is already in the profile script
-if ($profileContent -notmatch [regex]::Escape("`";$scriptDirectory`"")) {
-    # Append the PATH statement to the profile script
-    $pathCommand = "`$env:PATH += `";$scriptDirectory`""
-    Add-Content -Path $profilePath -Value "`n# Add WindowsPowerShell directory to PATH"
-    Add-Content -Path $profilePath -Value $pathCommand
-    Write-Host "Appended custom PATH statement to profile script."
-} else {
-    Write-Host "Custom PATH statement already exists in profile script."
-}
+# if ($profileContent -notmatch [regex]::Escape("`";$scriptDirectory`"")) {
+#     # Append the PATH statement to the profile script
+#     $pathCommand = "`$env:PATH += `";$scriptDirectory`""
+#     Add-Content -Path $profilePath -Value "# Add WindowsPowerShell directory to PATH"
+#     Add-Content -Path $profilePath -Value $pathCommand
+#     Write-Host "Appended custom PATH statement to profile script."
+# } else {
+#     Write-Host "Custom PATH statement already exists in profile script."
+# }
 
 # Add aliases for the session scripts
 $aliases = @(
@@ -63,7 +63,7 @@ $aliases = @(
 
 foreach ($alias in $aliases) {
     if ($profileContent -notmatch [regex]::Escape("Set-Alias $alias")) {
-        Add-Content -Path $profilePath -Value "`nSet-Alias $alias `"$scriptDirectory\$alias.ps1`""
+        Add-Content -Path $profilePath -Value "Set-Alias $alias `"$scriptDirectory\$alias.ps1`""
         Write-Host "Added alias for $alias"
     } else {
         Write-Host "Alias for $alias already exists in profile script."
