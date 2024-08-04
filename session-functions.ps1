@@ -2,7 +2,10 @@
 
 # say hello
 
-Write-Host "YES3 Session scripts, version 1.0.0 (August 2024)"
+$version = "1.0.0"
+$versionDate = "August 2024"
+
+Write-Host "YES3 session scripts, $version ($versionDate)"
 
 # Function to download a script from GitHub
 function Invoke-DownloadScriptFromGitHub {

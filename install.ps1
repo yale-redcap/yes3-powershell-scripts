@@ -42,6 +42,15 @@ $profileContent = if (Test-Path -Path $profilePath) {
     ""
 }
 
+Add-Content -Path $profilePath -Value "`nWrite-Host `"==============================================================`""
+Add-Content -Path $profilePath -Value "`nWrite-Host `"YES3 session scripts version $version ($versionDate)`""
+Add-Content -Path $profilePath -Value "`nWrite-Host `"---------------------------------------------------------------`""
+Add-Content -Path $profilePath -Value "`nWrite-Host `"session-start: Create and checkout a new session branch`""
+Add-Content -Path $profilePath -Value "`nWrite-Host `"session-end:   Commit and push changes to the remote repository`""
+Add-Content -Path $profilePath -Value "`nWrite-Host `"session-scrap: Scrap the current session and delete branch`""
+Add-Content -Path $profilePath -Value "`nWrite-Host `"==============================================================`""
+
+
 # Check if the custom path is already in the profile script
 if ($profileContent -notmatch [regex]::Escape("`";$scriptDirectory`"")) {
     # Append the PATH statement to the profile script
