@@ -30,14 +30,14 @@ foreach ($script in $scripts) {
 
 # Create the profile script if it doesn't exist
 if (!(Test-Path -Path $profilePath)) {
-    New-Item -Path $profilePath -Type File -Force
+    New-Item -Path $profilePath -ItemType File -Force
     Write-Host "Created new profile script at $profilePath"
 } else {
     Write-Host "Profile script already exists at $profilePath"
 }
 
 # Read the content of the profile script
-$profileContent = Get-Content -Path $profilePath -Raw
+$profileContent = if (Test-Path -Path $profilePath) { Get-Content -Path $profilePath -Raw } else { "" }
 
 # Check if the custom path is already in the profile script
 if ($profileContent -notmatch [regex]::Escape($customPath)) {
