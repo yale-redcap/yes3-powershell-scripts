@@ -1,4 +1,9 @@
 # session-functions.ps1
+
+# say hello
+
+Write-Host "YES3 Session scripts, version 1.0.0 (August 2024)"
+
 # Function to download a script from GitHub
 function Invoke-DownloadScriptFromGitHub {
     param (
