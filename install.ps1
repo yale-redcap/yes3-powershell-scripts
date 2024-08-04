@@ -5,11 +5,13 @@
 $profilePath = $PROFILE
 
 # Define the script directory to be added to PATH (the directory of the profile script)
-$scriptDirectory = Split-Path -Parent $profilePath
+# $scriptDirectory = Split-Path -Parent $profilePath
+
+$scriptDirectory = "$env:USERPROFILE\Documents\PowerShellScripts"
 
 # List of scripts to be downloaded from the GitHub repository
 $scripts = @(
-    "session-functions.ps1",
+    "session-functions.psm1",
     "session-start.ps1",
     "session-scrap.ps1",
     "session-end.ps1"
@@ -55,7 +57,6 @@ $profileContent = if (Test-Path -Path $profilePath) {
 
 # Add aliases for the session scripts
 $aliases = @(
-    "session-functions",
     "session-start",
     "session-scrap",
     "session-end"
@@ -70,9 +71,18 @@ foreach ($alias in $aliases) {
     }
 }
 
+$modulePath = "$scriptDirectory\session-functions.psm1"
+
+if ( $profileContent -notmatch $modulePath) {
+    Add-Content -Path $profilePath -Value "Import-Module `"$modulePath`""
+    Write-Host "Added Import-Module statement for $modulePath"
+} else {
+    Write-Host "Import-Module statement for $modulePath already exists in profile script."
+}
+
 # Check if the session scripts enabled message is present in the profile script
 if ($profileContent -notmatch "YES3 session scripts enabled") {
     Add-Content -Path $profilePath -Value "`nWrite-Host `"YES3 session scripts enabled.`""
 } 
 
-Write-Host "Update complete. You can now use the session scripts."
+Write-Host "Success: The latest versions of the session scripts are installed."

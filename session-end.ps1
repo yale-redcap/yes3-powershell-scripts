@@ -1,9 +1,5 @@
 # session-end.ps1
 
-# Import the common functions
-$scriptDirectory = Split-Path -Parent $PROFILE
-. "$scriptDirectory\session-functions.ps1"
-
 # Retrieve the session branch name from the environment variable
 $envVarName = Get-SessionBranchEnvVarName
 $sessionBranch = [System.Environment]::GetEnvironmentVariable($envVarName, [System.EnvironmentVariableTarget]::User)

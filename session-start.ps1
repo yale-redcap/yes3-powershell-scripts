@@ -1,6 +1,4 @@
-# Import the common functions
-$scriptDirectory = Split-Path -Parent $PROFILE
-. "$scriptDirectory\session-functions.ps1"
+# session-start.ps1 is a PowerShell script that is used to start a new session branch in a Git repository.
 
 # Get the session branch environment variable name
 $envVarName = Get-SessionBranchEnvVarName
