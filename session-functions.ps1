@@ -26,21 +26,3 @@ function Get-SessionBranchEnvVarName {
     $envVarLeafElement = $leafElement -replace "-", "_"
     return "SESSION_BRANCH_$envVarLeafElement"
 }
-
-# Function to download a script from GitHub
-function Download-ScriptFromGitHub {
-    param (
-        [string]$scriptName,
-        [string]$targetPath
-    )
-
-    $repoUrl = "https://raw.githubusercontent.com/yale-redcap/yes3-powershell-scripts/main"
-    $scriptUrl = "$repoUrl/$scriptName"
-    $scriptPath = "$targetPath\$scriptName"
-    try {
-        Invoke-WebRequest -Uri $scriptUrl -OutFile $scriptPath -ErrorAction Stop
-        Write-Host "Downloaded: $scriptName to $scriptPath"
-    } catch {
-        Write-Host "Failed to download $scriptName from $scriptUrl"
-    }
-}
