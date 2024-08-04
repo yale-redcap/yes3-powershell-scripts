@@ -1,14 +1,29 @@
-# Import the common functions
-. "$env:USERPROFILE\Documents\WindowsPowerShell\session-functions.ps1"
+
+# Function to download a script from GitHub
+function Download-ScriptFromGitHub {
+    param (
+        [string]$scriptName,
+        [string]$targetPath
+    )
+
+    # Define the URL of the GitHub repository containing the session scripts
+    $repoUrl = "https://raw.githubusercontent.com/yale-redcap/yes3-powershell-scripts/main"
+
+    $scriptUrl = "$repoUrl/$scriptName"
+    $scriptPath = "$targetPath\$scriptName"
+    try {
+        Invoke-WebRequest -Uri $scriptUrl -OutFile $scriptPath -ErrorAction Stop
+        Write-Host "Downloaded: $scriptName to $scriptPath"
+    } catch {
+        Write-Host "Failed to download $scriptName from $scriptUrl"
+    }
+}
 
 # Define the path to the profile script
 $profilePath = $PROFILE
 
 # Define the WindowsPowerShell directory to be added to PATH
 $customPath = "$env:USERPROFILE\Documents\WindowsPowerShell"
-
-# Define the URL of the GitHub repository containing the session scripts
-$githubRepoUrl = "https://raw.githubusercontent.com/YourGitHubUsername/YourRepository/main"
 
 # List of scripts to be downloaded from the GitHub repository
 $scripts = @(
@@ -28,7 +43,7 @@ if (!(Test-Path -Path $customPath)) {
 
 # Download each script from the GitHub repository
 foreach ($script in $scripts) {
-    Download-ScriptFromGitHub -scriptName $script -targetPath $customPath -repoUrl $githubRepoUrl
+    Download-ScriptFromGitHub -scriptName $script -targetPath $customPath
 }
 
 # Create the profile script if it doesn't exist
