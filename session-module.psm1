@@ -46,7 +46,7 @@ function Start-Session {
 
     if (-not [string]::IsNullOrWhiteSpace($existingSessionBranch)) {
         Write-Host "A session is already in progress with branch: $existingSessionBranch. Exiting."
-        exit 1
+        return 1
     }
 
     # Fetch the latest changes from the remote repository
@@ -67,7 +67,7 @@ function Start-Session {
             Write-Host "Hard reset performed on the main branch."
         } else {
             Write-Host "Operation cancelled by the user. Exiting."
-            exit 1
+            return 1
         }
     }
 
@@ -91,7 +91,7 @@ function Start-Session {
         Write-Host "Switched to new branch: $sessionBranch. Get to work."
     } catch {
         Write-Host "Branch '$sessionBranch' already exists. Exiting."
-        exit 1
+        return 1
     }
 }
 
@@ -106,7 +106,7 @@ function Stop-Session {
     # Check if a session branch name was retrieved
     if ([string]::IsNullOrWhiteSpace($sessionBranch)) {
         Write-Host "No session branch for '$envVarName' found. Make sure to run the start-session script first. Exiting."
-        exit 1
+        return 1
     }
 
     # Ensure the session branch is checked out
@@ -141,7 +141,7 @@ function Stop-Session {
         [System.Environment]::SetEnvironmentVariable($envVarName, $null, [System.EnvironmentVariableTarget]::User)
     } catch {
         Write-Host "Failed to push branch '$sessionBranch'. Exiting."
-        exit 1
+        return 1
     }
 
     # Switch to the main branch
@@ -164,7 +164,7 @@ function Remove-Session {
     # Check if a session branch name was retrieved
     if ([string]::IsNullOrWhiteSpace($sessionBranch)) {
         Write-Host "No session branch for '$envVarName' found. Exiting."
-        exit 1
+        return 1
     }
 
     # Prompt for confirmation
@@ -172,7 +172,7 @@ function Remove-Session {
 
     if ($confirmation -ne "yes") {
         Write-Host "Operation cancelled by the user. Exiting."
-        exit 1
+        return 1
     }
 
     # Remove the session branch environment variable
@@ -187,7 +187,7 @@ function Remove-Session {
         Write-Host "Deleted session branch: $sessionBranch"
     } catch {
         Write-Host "Failed to delete session branch '$sessionBranch'. It may not exist. Exiting."
-        exit 1
+        return 1
     }
 
     # Fetch the latest changes from the remote repository
