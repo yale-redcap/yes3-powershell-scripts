@@ -213,4 +213,4 @@ function Get-SessionCommands {
 }
 
 # Export functions
-#Export-ModuleMember -Function Show-Version, Get-Base36Timestamp, Get-SessionBranchEnvVarName, Start-Session, Complete-Session, Undo-Session, Show-Session-Commands
+Export-ModuleMember -Function Show-Version, Get-Base36Timestamp, Get-SessionBranchEnvVarName, Start-Session, Complete-Session, Undo-Session, Show-SessionCommands
