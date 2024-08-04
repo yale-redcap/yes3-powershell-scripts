@@ -72,7 +72,7 @@ After you restart your PowerShell session, you can use the following commands:
 
 - Undo-Session:     Remove the session branch and abandon changes.
 
-- Show-Session-Commands: Display the available session commands.
+- Get-SessionCommands: Display the available session commands.
 
 "@
 

@@ -33,7 +33,6 @@ function Get-SessionBranchEnvVarName {
     $envVarLeafElement = $leafElement -replace "-", "_"
     return "SESSION_BRANCH_$envVarLeafElement"
 }
-
 function Start-Session {
 
     Show-Version
@@ -199,7 +198,7 @@ function Undo-Session {
     Write-Host "Session removed. The main branch is checked out and reset to the remote state."
 }
 
-function Show-Session-Commands {
+function Get-SessionCommands {
 
     Show-Version
 
@@ -210,8 +209,8 @@ function Show-Session-Commands {
     Write-Host "                      push the session branch to the remote repository,"
     Write-Host "                      and switch back to the local main branch.`n"
     Write-Host "  - Undo-Session:     Remove the session branch and abandon changes`n"
-    Write-Host "  - Show-Session-Commands: Display this list of available session commands`n"
+    Write-Host "  - Get-SessionCommands:    Display this list of available session commands`n"
 }
 
 # Export functions
-Export-ModuleMember -Function Show-Version, Get-Base36Timestamp, Get-SessionBranchEnvVarName, Start-Session, Complete-Session, Undo-Session, Show-Session-Commands
+#Export-ModuleMember -Function Show-Version, Get-Base36Timestamp, Get-SessionBranchEnvVarName, Start-Session, Complete-Session, Undo-Session, Show-Session-Commands
