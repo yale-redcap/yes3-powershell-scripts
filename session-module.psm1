@@ -95,7 +95,7 @@ function Start-Session {
     }
 }
 
-function Stop-Session {
+function Complete-Session {
 
     Show-Version
 
@@ -153,7 +153,7 @@ function Stop-Session {
     Write-Host "Session ended. The main branch is checked out and reset to the remote state."
 }
 
-function Remove-Session {
+function Undo-Session {
 
     Show-Version
 
@@ -199,5 +199,19 @@ function Remove-Session {
     Write-Host "Session removed. The main branch is checked out and reset to the remote state."
 }
 
+Show-Session-Commands {
+
+    Show-Version
+
+    Write-Host "`nAvailable session commands:`n"
+    Write-Host "  - Start-Session:    Create and checkout a new session branch"
+    Write-Host "                      so you can start editing files.`n"
+    Write-Host "  - Complete-Session: Stage and commit all changes,"
+    Write-Host "                      push the session branch to the remote repository,"
+    Write-Host "                      and switch back to the local main branch.`n"
+    Write-Host "  - Undo-Session:     Remove the session branch and abandon changes`n"
+    Write-Host "  - Show-Session-Commands: Display this list of available session commands`n"
+}
+
 # Export functions
-Export-ModuleMember -Function Show-Version, Get-Base36Timestamp, Get-SessionBranchEnvVarName, Start-Session, Stop-Session, Remove-Session
+Export-ModuleMember -Function Show-Version, Get-Base36Timestamp, Get-SessionBranchEnvVarName, Start-Session, Complete-Session, Undo-Session, Show-Session-Commands

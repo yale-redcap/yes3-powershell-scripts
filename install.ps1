@@ -98,6 +98,6 @@ if ( $profileContent -notmatch [regex]::Escape("$modulePath") ){
 # Check if the session scripts enabled message is present in the profile script
 if ($profileContent -notmatch "YES3 session scripts enabled") {
     Add-Content -Path $profilePath -Value "`nWrite-Host `"YES3 session scripts enabled.`""
-} 
+}
 
-Write-Host "Success: The latest versions of the session scripts are installed."
+

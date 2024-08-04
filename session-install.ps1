@@ -57,4 +57,23 @@ if ( $profileContent -notmatch [regex]::Escape("$modulePath") ){
     Write-Host "Import-Module statement for $modulePath already exists in profile script."
 }
 
-Write-Host "Success: The latest versions of the session scripts are installed."
+$successMessage = @"
+
+The latest version of the session function library has been installed.
+
+After you restart your PowerShell session, you can use the following commands:
+
+- Start-Session:    Create and checkout a new session branch
+                    so you can start editing files.
+
+- Complete-Session: Stage and commit all changes, 
+                    push the session branch to the remote repository, 
+                    and switch back to the local main branch.
+
+- Undo-Session:     Remove the session branch and abandon changes.
+
+- Show-Session-Commands: Display the available session commands.
+
+"@
+
+Write-Host $successMessage
