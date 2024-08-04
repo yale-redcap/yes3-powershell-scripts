@@ -1,7 +1,3 @@
-# session-functions.ps1
-
-# say hello
-
 $version = "1.0.0"
 $versionDate = "August 2024"
 
@@ -35,3 +31,6 @@ function Get-SessionBranchEnvVarName {
     $envVarLeafElement = $leafElement -replace "-", "_"
     return "SESSION_BRANCH_$envVarLeafElement"
 }
+
+# Export functions
+Export-ModuleMember -Function Show-Version, Get-Base36Timestamp, Get-SessionBranchEnvVarName
