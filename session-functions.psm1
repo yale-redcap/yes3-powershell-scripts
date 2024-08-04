@@ -5,25 +5,7 @@
 $version = "1.0.0"
 $versionDate = "August 2024"
 
-Write-Host "YES3 session scripts, $version ($versionDate)"
-
-# Function to download a script from GitHub
-function Invoke-DownloadScriptFromGitHub {
-    param (
-        [string]$scriptName,
-        [string]$targetDirectory
-    )
-
-    $repoUrl = "https://raw.githubusercontent.com/yale-redcap/yes3-powershell-scripts/main"
-    $scriptUrl = "$repoUrl/$scriptName"
-    $scriptPath = "$targetDirectory\$scriptName"
-    try {
-        Invoke-WebRequest -Uri $scriptUrl -OutFile $scriptPath -ErrorAction Stop
-        Write-Host "Downloaded: $scriptName to $scriptPath"
-    } catch {
-        Write-Host "Failed to download $scriptName from $scriptUrl"
-    }
-}
+Write-Host "YES3 session scripts, version $version ($versionDate)"
 
 # Function to get the current timestamp and convert it to base 36
 function Get-Base36Timestamp {
