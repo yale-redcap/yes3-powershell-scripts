@@ -21,46 +21,33 @@ jobs:
         git config --global user.name "github-actions"
         git config --global user.email "github-actions@github.com"
 
+    - name: Install GitHub CLI
+      run: |
+        sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key C99B11DEB97541F0
+        sudo apt-add-repository https://cli.github.com/packages
+        sudo apt update
+        sudo apt install gh
+
     - name: Copy file to target yes3-dashboard-docs
+      env:
+        PAT: ${{ secrets.PC_PAT_ALL_REPOS }}
       run: |
         git clone https://x-access-token:${{ secrets.PC_PAT_ALL_REPOS }}@github.com/yale-redcap/yes3-dashboard-docs.git
         cd yes3-dashboard-docs
-        git checkout main
-        cp ../session-install.ps1 .
+        branch_name=sync-changes-$(date +%Y%m%d%H%M%S)
+        git checkout -b $branch_name
+        cp ../xyz.ps1 .
         git add .
         git commit -m "Sync file from yes3-powershell-scripts repository"
-        git push
+        git push --set-upstream origin $branch_name
+
+        # Create a new pull request and merge it
+        pr_url=$(gh pr create --title "Sync file from yes3-powershell-scripts" --body "Automated sync of xyz.ps1 file." --base main --head $branch_name --json url --jq '.url')
+        pr_number=$(echo $pr_url | awk -F'/' '{print $NF}')
+        gh pr merge $pr_number --merge --comment "Automatically merged by GitHub Actions."
+
         cd ..
         rm -rf yes3-dashboard-docs
-      env:
-        GITHUB_TOKEN: ${{ secrets.PC_PAT_ALL_REPOS }}
 
-    - name: Copy file to target yes3-document-writer-guide
-      run: |
-        git clone https://x-access-token:${{ secrets.PC_PAT_ALL_REPOS }}@github.com/yale-redcap/yes3-document-writer-guide.git
-        cd yes3-document-writer-guide
-        git checkout main
-        cp ../session-install.ps1 .
-        git add .
-        git commit -m "Sync file from yes3-powershell-scripts repository"
-        git push
-        cd ..
-        rm -rf yes3-document-writer-guide
-      env:
-        GITHUB_TOKEN: ${{ secrets.PC_PAT_ALL_REPOS }}
-
-    - name: Copy file to target yes3-dashboard-docs
-      run: |
-        git clone https://x-access-token:${{ secrets.PC_PAT_ALL_REPOS }}@github.com/yale-redcap/yes3-exporter-1.0-docs.git
-        cd yes3-exporter-1.0-docs
-        git checkout main
-        cp ../session-install.ps1 .
-        git add .
-        git commit -m "Sync file from yes3-powershell-scripts repository"
-        git push
-        cd ..
-        rm -rf yes3-exporter-1.0-docs
-      env:
-        GITHUB_TOKEN: ${{ secrets.PC_PAT_ALL_REPOS }}
 
     # Add more steps for additional target repositories following the same pattern
