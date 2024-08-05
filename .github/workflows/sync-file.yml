@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
 
 jobs:
   sync-file:
@@ -22,7 +23,7 @@ jobs:
         git config --global user.email "github-actions@github.com"
 
     - name: Install GitHub CLI
-      uses: actions/setup-gh@v2
+      uses: cli/cli-action@v3
       with:
         token: ${{ secrets.PC_PAT_ALL_REPOS }}
 
@@ -30,22 +31,23 @@ jobs:
       env:
         PAT: ${{ secrets.PC_PAT_ALL_REPOS }}
       run: |
-        git clone https://x-access-token:${{ secrets.PAT }}@github.com/yale-redcap/yes3-dashboard-docs.git
+        git clone https://x-access-token:${{ secrets.PC_PAT_ALL_REPOS }}@github.com/yale-redcap/yes3-dashboard-docs.git
         cd yes3-dashboard-docs
         branch_name=sync-changes-$(date +%Y%m%d%H%M%S)
         git checkout -b $branch_name
-        cp ../xyz.ps1 .
+        cp ../session-install.ps1 .
         git add .
         git commit -m "Sync file from yes3-powershell-scripts repository"
         git push --set-upstream origin $branch_name
 
-        # Create a new pull request and merge it
-        pr_url=$(gh pr create --title "Sync file from yes3-powershell-scripts" --body "Automated sync of xyz.ps1 file." --base main --head $branch_name --json url --jq '.url')
+        # Create a new pull request
+        pr_url=$(gh pr create --title "Sync file from yes3-powershell-scripts" --body "Automated sync of session-install.ps1 file." --base main --head $branch_name --json url --jq '.url')
         pr_number=$(echo $pr_url | awk -F'/' '{print $NF}')
+        
+        # Merge the pull request
         gh pr merge $pr_number --merge --comment "Automatically merged by GitHub Actions."
 
         cd ..
         rm -rf yes3-dashboard-docs
-
 
     # Add more steps for additional target repositories following the same pattern
