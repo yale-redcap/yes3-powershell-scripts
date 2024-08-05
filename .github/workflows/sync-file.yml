@@ -1,0 +1,66 @@
+name: Sync File to Targets
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  sync-file:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout source repository
+      uses: actions/checkout@v2
+      with:
+        repository: yale-redcap/yes3-powershell-scripts
+        ref: main
+
+    - name: Set up Git
+      run: |
+        git config --global user.name "github-actions"
+        git config --global user.email "github-actions@github.com"
+
+    - name: Copy file to target yes3-dashboard-docs
+      run: |
+        git clone https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/yale-redcap/yes3-dashboard-docs.git
+        cd yes3-dashboard-docs
+        git checkout main
+        cp ../session-install.ps1 .
+        git add .
+        git commit -m "Sync file from yes3-powershell-scripts repository"
+        git push
+        cd ..
+        rm -rf yes3-dashboard-docs
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Copy file to target yes3-document-writer-guide
+      run: |
+        git clone https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/yale-redcap/yes3-document-writer-guide.git
+        cd yes3-document-writer-guide
+        git checkout main
+        cp ../session-install.ps1 .
+        git add .
+        git commit -m "Sync file from yes3-powershell-scripts repository"
+        git push
+        cd ..
+        rm -rf yes3-document-writer-guide
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Copy file to target yes3-dashboard-docs
+      run: |
+        git clone https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/yale-redcap/yes3-exporter-1.0-docs.git
+        cd yes3-exporter-1.0-docs
+        git checkout main
+        cp ../session-install.ps1 .
+        git add .
+        git commit -m "Sync file from yes3-powershell-scripts repository"
+        git push
+        cd ..
+        rm -rf yes3-exporter-1.0-docs
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    # Add more steps for additional target repositories following the same pattern
