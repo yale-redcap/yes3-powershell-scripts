@@ -23,7 +23,7 @@ jobs:
         git config --global user.email "github-actions@github.com"
 
     - name: Install GitHub CLI
-      uses: cli/gh-action@v3
+      uses: cli/cli-action@v3
       with:
         token: ${{ secrets.PC_PAT_ALL_REPOS }}
 
