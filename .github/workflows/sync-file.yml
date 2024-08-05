@@ -23,7 +23,7 @@ jobs:
 
     - name: Copy file to target yes3-dashboard-docs
       run: |
-        git clone https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/yale-redcap/yes3-dashboard-docs.git
+        git clone https://x-access-token:${{ secrets.PC_PAT_ALL_REPOS }}@github.com/yale-redcap/yes3-dashboard-docs.git
         cd yes3-dashboard-docs
         git checkout main
         cp ../session-install.ps1 .
@@ -33,11 +33,11 @@ jobs:
         cd ..
         rm -rf yes3-dashboard-docs
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.PC_PAT_ALL_REPOS }}
 
     - name: Copy file to target yes3-document-writer-guide
       run: |
-        git clone https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/yale-redcap/yes3-document-writer-guide.git
+        git clone https://x-access-token:${{ secrets.PC_PAT_ALL_REPOS }}@github.com/yale-redcap/yes3-document-writer-guide.git
         cd yes3-document-writer-guide
         git checkout main
         cp ../session-install.ps1 .
@@ -47,11 +47,11 @@ jobs:
         cd ..
         rm -rf yes3-document-writer-guide
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.PC_PAT_ALL_REPOS }}
 
     - name: Copy file to target yes3-dashboard-docs
       run: |
-        git clone https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/yale-redcap/yes3-exporter-1.0-docs.git
+        git clone https://x-access-token:${{ secrets.PC_PAT_ALL_REPOS }}@github.com/yale-redcap/yes3-exporter-1.0-docs.git
         cd yes3-exporter-1.0-docs
         git checkout main
         cp ../session-install.ps1 .
@@ -61,6 +61,6 @@ jobs:
         cd ..
         rm -rf yes3-exporter-1.0-docs
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.PC_PAT_ALL_REPOS }}
 
     # Add more steps for additional target repositories following the same pattern
