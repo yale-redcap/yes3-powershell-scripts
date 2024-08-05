@@ -23,9 +23,10 @@ jobs:
         git config --global user.email "github-actions@github.com"
 
     - name: Install GitHub CLI
-      uses: cli/cli-action@v3
-      with:
-        token: ${{ secrets.PC_PAT_ALL_REPOS }}
+      uses: actions/setup-gh-cli@v2
+
+    - name: Authenticate GitHub CLI
+      run: gh auth login --with-token < ${{ secrets.PC_PAT_ALL_REPOS }}
 
     - name: Copy file to target repo 1
       env:
