@@ -22,17 +22,15 @@ jobs:
         git config --global user.email "github-actions@github.com"
 
     - name: Install GitHub CLI
-      run: |
-        sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key C99B11DEB97541F0
-        sudo apt-add-repository https://cli.github.com/packages
-        sudo apt update
-        sudo apt install gh
+      uses: actions/setup-gh@v2
+      with:
+        token: ${{ secrets.PC_PAT_ALL_REPOS }}
 
-    - name: Copy file to target yes3-dashboard-docs
+    - name: Copy file to target repo 1
       env:
         PAT: ${{ secrets.PC_PAT_ALL_REPOS }}
       run: |
-        git clone https://x-access-token:${{ secrets.PC_PAT_ALL_REPOS }}@github.com/yale-redcap/yes3-dashboard-docs.git
+        git clone https://x-access-token:${{ secrets.PAT }}@github.com/yale-redcap/yes3-dashboard-docs.git
         cd yes3-dashboard-docs
         branch_name=sync-changes-$(date +%Y%m%d%H%M%S)
         git checkout -b $branch_name
