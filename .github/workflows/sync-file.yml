@@ -22,10 +22,17 @@ jobs:
         git config --global user.name "github-actions"
         git config --global user.email "github-actions@github.com"
 
-    - name: Install GitHub CLI
-      uses: cli/cli-action@v3
+    - name: Install Node.js
+      uses: actions/setup-node@v2
       with:
-        token: ${{ secrets.PC_PAT_ALL_REPOS }}
+        node-version: '14'
+
+    - name: Install GitHub CLI
+      run: |
+        npm install -g @github/gh-cli
+
+    - name: Authenticate GitHub CLI
+      run: echo "${{ secrets.PC_PAT_ALL_REPOS }}" | gh auth login --with-token
 
     - name: Copy file to target repo 1
       env:
@@ -50,4 +57,3 @@ jobs:
         cd ..
         rm -rf yes3-dashboard-docs
 
-    # Add more steps for additional target repositories following the same pattern
