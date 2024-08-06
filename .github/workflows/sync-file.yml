@@ -33,40 +33,55 @@ jobs:
     - name: Authenticate GitHub CLI
       run: echo "${{ secrets.PC_PAT_ALL_REPOS }}" | gh auth login --with-token
 
-    - name: Copy file to target repo 1
+    - name: Process target repositories
       env:
         PAT: ${{ secrets.PC_PAT_ALL_REPOS }}
       run: |
         set -e # Exit immediately if a command exits with a non-zero status.
-        git clone https://x-access-token:${{ secrets.PC_PAT_ALL_REPOS }}@github.com/yale-redcap/yes3-dashboard-docs.git
-        cd yes3-dashboard-docs
-        branch_name=sync-changes-$(date +%Y%m%d%H%M%S)
-        git checkout -b $branch_name
-        cp -f ../source-repo/session-install.ps1 .
-        git add session-install.ps1
-        
-        # Check if there are changes to be committed
-        if git diff-index --quiet HEAD; then
-          echo "No changes to commit"
-        else
-          git commit -m "Sync file from yes3-powershell-scripts repository"
-          git push --set-upstream origin $branch_name
 
-          # Create a new pull request and capture the output
-          pr_output=$(gh pr create --title "Sync file from yes3-powershell-scripts" --body "Automated sync of session-install.ps1 file." --base main --head $branch_name)
+        # Array of target repositories
+        target_repos=(
+          "yale-redcap/yes3-dashboard-docs"
+          "yale-redcap/yes3-document-writer-guide"
+          "yale-redcap/yes3-exporter-1.0-docs"
+        )
 
-          # Extract the pull request URL
-          pr_url=$(echo "$pr_output" | grep -o 'https://github.com/[^\"]*')
+        for repo in "${target_repos[@]}"; do
+          echo "Processing repository: $repo"
+          git clone https://x-access-token:${{ secrets.PC_PAT_ALL_REPOS }}@github.com/$repo.git
+          repo_name=$(basename $repo)
+          cd $repo_name
+          branch_name=sync-changes-$(date +%Y%m%d%H%M%S)
+          git checkout -b $branch_name
+          cp -f ../source-repo/session-install.ps1 .
+          git add session-install.ps1
           
-          # Extract the pull request number from the URL
-          pr_number=$(echo $pr_url | awk -F'/' '{print $NF}')
-          
-          # Add a comment to the pull request
-          gh pr comment $pr_number --body "Automatically merged by GitHub Actions."
+          # Check if there are changes to be committed
+          if git diff-index --quiet HEAD; then
+            echo "No changes to commit in $repo"
+          else
+            git commit -m "Sync file from yes3-powershell-scripts repository"
+            git push --set-upstream origin $branch_name
 
-          # Merge the pull request
-          gh pr merge $pr_number --merge
+            # Create a new pull request and capture the output
+            pr_output=$(gh pr create --title "Sync file from yes3-powershell-scripts" --body "Automated sync of session-install.ps1 file." --base main --head $branch_name)
 
-          # Delete the branch
-          gh api -X DELETE "repos/yale-redcap/yes3-dashboard-docs/git/refs/heads/$branch_name"
-        fi
+            # Extract the pull request URL
+            pr_url=$(echo "$pr_output" | grep -o 'https://github.com/[^\"]*')
+            
+            # Extract the pull request number from the URL
+            pr_number=$(echo $pr_url | awk -F'/' '{print $NF}')
+            
+            # Add a comment to the pull request
+            gh pr comment $pr_number --body "Automatically merged by GitHub Actions."
+
+            # Merge the pull request
+            gh pr merge $pr_number --merge
+
+            # Delete the branch
+            gh api -X DELETE "repos/$repo/git/refs/heads/$branch_name"
+          fi
+
+          cd ..
+          rm -rf $repo_name
+        done
