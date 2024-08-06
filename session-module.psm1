@@ -126,8 +126,9 @@ function Complete-Session {
     # Ensure the session branch is checked out
     git checkout $sessionBranch
 
-    # Add all changes to staging
-    git add --all
+    # Add all changes to staging, excluding hidden directories and files
+    git add .
+    git reset '.*'
 
     # Prompt for a commit message
     $commitMessage = Read-Host -Prompt "Enter commit description"
