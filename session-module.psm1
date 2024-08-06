@@ -129,9 +129,9 @@ function Complete-Session {
     # Add all changes, including deletions, to staging
     git add --all
 
-    # Remove the .vscode directory from staging and tracking
-    git reset .vscode/
-    git rm --cached -r .vscode
+    # vscode reojrct support: Remove the .vscode directory from staging and tracking
+    git reset .vscode/ 2>$null
+    git rm --cached -r -f .vscode 2>$null
 
     # Prompt for a commit message
     $commitMessage = Read-Host -Prompt "Enter commit description"
