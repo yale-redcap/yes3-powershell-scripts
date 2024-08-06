@@ -48,7 +48,7 @@ jobs:
         git push --set-upstream origin $branch_name
 
         # Create a new pull request
-        pr_url=$(gh pr create --title "Sync file from yes3-powershell-scripts" --body "Automated sync of session-install.ps1 file." --base main --head $branch_name --web)
+        pr_url=$(gh pr create --title "Sync file from yes3-powershell-scripts" --body "Automated sync of session-install.ps1 file." --base main --head $branch_name --json url --jq '.url')
 
         # Extract the pull request number from the URL
         pr_number=$(echo $pr_url | awk -F'/' '{print $NF}')
