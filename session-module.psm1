@@ -38,8 +38,7 @@ function Get-Base36Timestamp {
 # Function to get the current session branch environment variable name
 function Get-SessionBranchEnvVarName {
     $envVarLeafElement = Get-LeafElement
-    $varname = "SESSION_BRANCH_$envVarLeafElement"
-    return $varname.ToUpper()
+    return "SESSION_BRANCH_$envVarLeafElement".ToUpper()
 }
 
 function Start-Session {
@@ -88,8 +87,7 @@ function Start-Session {
     $base36Timestamp = Get-Base36Timestamp
 
     # Generate the session branch name
-    $sessionBranch = "$username-$leafElement-$base36Timestamp"
-    $sessionBranch = $sessionBranch.ToLower()
+    $sessionBranch = "$username-$leafElement-$base36Timestamp".ToLower()
     # $sessionBranch = "$leafElement-$base36Timestamp"
 
     # Set the session branch name as an environment variable
