@@ -7,6 +7,14 @@ function Show-Version {
     Write-Host "--------------------"
 }
 
+function Get-LeafElement{
+    
+    $leafElement = Split-Path -Leaf (Get-Location)
+    $leafElement = $leafElement -replace "[- ]", "_"
+    $leafElement = $envVarLeafElement -replace "[^a-zA-Z0-9_]", ""
+    return $leafElement
+}
+
 # Function to get the current timestamp and convert it to base 36
 function Get-Base36Timestamp {
     $characters = "0123456789abcdefghijklmnopqrstuvwxyz"
@@ -29,10 +37,10 @@ function Get-Base36Timestamp {
 
 # Function to get the current session branch environment variable name
 function Get-SessionBranchEnvVarName {
-    $leafElement = Split-Path -Leaf (Get-Location)
-    $envVarLeafElement = $leafElement -replace "-", "_"
+    $envVarLeafElement = Get-LeafElement
     return "SESSION_BRANCH_$envVarLeafElement"
 }
+
 function Start-Session {
 
     Show-Version
@@ -73,13 +81,14 @@ function Start-Session {
     # Retrieve the Windows username
     $username = $env:USERNAME
 
-    $leafElement = Split-Path -Leaf (Get-Location)
+    $leafElement = Get-LeafElement
 
     # Get the base 36 encoded current timestamp
     $base36Timestamp = Get-Base36Timestamp
 
     # Generate the session branch name
-    $sessionBranch = "$username-$leafElement-$base36Timestamp"
+    # $sessionBranch = "$username-$leafElement-$base36Timestamp"
+    $sessionBranch = "$leafElement-$base36Timestamp"
 
     # Set the session branch name as an environment variable
     [System.Environment]::SetEnvironmentVariable($envVarName, $sessionBranch, [System.EnvironmentVariableTarget]::User)
@@ -213,4 +222,4 @@ function Get-SessionCommands {
 }
 
 # Export functions
-Export-ModuleMember -Function Show-Version, Get-Base36Timestamp, Get-SessionBranchEnvVarName, Start-Session, Complete-Session, Undo-Session, Get-SessionCommands
+Export-ModuleMember -Function Show-Version, Get-LeafElement, Get-Base36Timestamp, Get-SessionBranchEnvVarName, Start-Session, Complete-Session, Undo-Session, Get-SessionCommands
