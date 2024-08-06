@@ -47,9 +47,12 @@ jobs:
         git commit -m "Sync file from yes3-powershell-scripts repository"
         git push --set-upstream origin $branch_name
 
-        # Create a new pull request
-        pr_url=$(gh pr create --title "Sync file from yes3-powershell-scripts" --body "Automated sync of session-install.ps1 file." --base main --head $branch_name --json url --jq '.url')
+        # Create a new pull request and capture the output
+        pr_output=$(gh pr create --title "Sync file from yes3-powershell-scripts" --body "Automated sync of session-install.ps1 file." --base main --head $branch_name)
 
+        # Extract the pull request URL
+        pr_url=$(echo "$pr_output" | grep -o 'https://github.com/[^\"]*')
+        
         # Extract the pull request number from the URL
         pr_number=$(echo $pr_url | awk -F'/' '{print $NF}')
         
