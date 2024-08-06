@@ -129,7 +129,11 @@ function Complete-Session {
     # Add all changes to staging, excluding hidden directories and files
     git add .
     git reset '.*'
-
+    
+    # Remove hidden directories from tracking if they are already tracked
+    git rm --cached '.*/*'
+    git rm --cached '.*'
+    
     # Prompt for a commit message
     $commitMessage = Read-Host -Prompt "Enter commit description"
 
