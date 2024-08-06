@@ -11,7 +11,7 @@ function Get-LeafElement{
     
     $leafElement = Split-Path -Leaf (Get-Location)
     $leafElement = $leafElement -replace "[- ]", "_"
-    $leafElement = $envVarLeafElement -replace "[^a-zA-Z0-9_]", ""
+    $leafElement = $leafElement -replace "[^a-zA-Z0-9_]", ""
     return $leafElement
 }
 
