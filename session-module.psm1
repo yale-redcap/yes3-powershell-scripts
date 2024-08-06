@@ -7,6 +7,12 @@ function Show-Version {
     Write-Host "--------------------"
 }
 
+function Get-DadJoke {
+    $headers = @{ Accept = "application/json" }
+    $response = Invoke-RestMethod -Uri "https://icanhazdadjoke.com/" -Headers $headers
+    return $response.joke
+}
+
 function Get-LeafElement{
     
     $leafElement = Split-Path -Leaf (Get-Location)
@@ -218,8 +224,9 @@ function Get-SessionCommands {
     Write-Host "                      push the session branch to the remote repository,"
     Write-Host "                      and switch back to the local main branch.`n"
     Write-Host "  - Undo-Session:     Remove the session branch and abandon changes`n"
+    Write-Host "  - Get-DadJoke:      Does what you think it does`n"
     Write-Host "  - Get-SessionCommands:    Display this list of available session commands`n"
 }
 
 # Export functions
-Export-ModuleMember -Function Show-Version, Get-LeafElement, Get-Base36Timestamp, Get-SessionBranchEnvVarName, Start-Session, Complete-Session, Undo-Session, Get-SessionCommands
+Export-ModuleMember -Function Show-Version, Get-DadJoke, Get-LeafElement, Get-Base36Timestamp, Get-SessionBranchEnvVarName, Start-Session, Complete-Session, Undo-Session, Get-SessionCommands
