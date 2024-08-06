@@ -50,7 +50,7 @@ jobs:
         ls -lrt -d -1 "$PWD"/{*,.*}
         cd ../yes3-dashboard-docs
         cp -f ../source-repo/session-install.ps1 .
-        echo "-- 3 --"
+        echo "-- after copy --"
         ls -lrt -d -1 "$PWD"/{*,.*}
         git add session-install.ps1
         git add --all
