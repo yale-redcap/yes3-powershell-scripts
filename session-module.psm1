@@ -126,14 +126,13 @@ function Complete-Session {
     # Ensure the session branch is checked out
     git checkout $sessionBranch
 
-    # Add all changes to staging, excluding hidden directories and files
-    git add .
-    git reset '.*'
-    
-    # Remove hidden directories from tracking if they are already tracked
-    git rm --cached '.*/*'
-    git rm --cached '.*'
-    
+    # Add all changes, including deletions, to staging
+    git add --all
+
+    # Remove the .vscode directory from staging and tracking
+    git reset .vscode/
+    git rm --cached -r .vscode
+
     # Prompt for a commit message
     $commitMessage = Read-Host -Prompt "Enter commit description"
 
