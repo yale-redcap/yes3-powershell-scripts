@@ -1,4 +1,4 @@
-name: Sync File to Targets
+name: Sync File to Selected Targets
 
 on:
   push:
