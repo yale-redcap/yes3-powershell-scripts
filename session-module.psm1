@@ -158,7 +158,7 @@ function Complete-Session {
     # Reset the main branch to match the remote main branch exactly
     git reset --hard origin/main
 
-    Write-Host "Editing session ended. The main branch is checked out and reset to the remote state."
+    Write-Host "Editing session completed. The main branch is checked out and reset to the remote state."
 }
 
 function Undo-Session {
