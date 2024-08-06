@@ -96,7 +96,7 @@ function Start-Session {
     # Try to create and switch to the new session branch
     try {
         git checkout -b $sessionBranch
-        Write-Host "Switched to new branch: $sessionBranch. Get to work."
+        Write-Host "Editing session started."
     } catch {
         Write-Host "Branch '$sessionBranch' already exists. Exiting."
         return 1
@@ -158,7 +158,7 @@ function Complete-Session {
     # Reset the main branch to match the remote main branch exactly
     git reset --hard origin/main
 
-    Write-Host "Session ended. The main branch is checked out and reset to the remote state."
+    Write-Host "Editing session ended. The main branch is checked out and reset to the remote state."
 }
 
 function Undo-Session {
