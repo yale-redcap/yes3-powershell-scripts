@@ -56,8 +56,11 @@ jobs:
         # Extract the pull request number from the URL
         pr_number=$(echo $pr_url | awk -F'/' '{print $NF}')
         
+        # Add a comment to the pull request
+        gh pr comment $pr_number --body "Automatically merged by GitHub Actions."
+
         # Merge the pull request
-        gh pr merge $pr_number --merge --comment "Automatically merged by GitHub Actions."
+        gh pr merge $pr_number --merge
 
         # cd ..
         # rm -rf yes3-dashboard-docs
