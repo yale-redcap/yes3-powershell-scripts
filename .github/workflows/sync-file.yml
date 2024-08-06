@@ -37,15 +37,19 @@ jobs:
       env:
         PAT: ${{ secrets.PC_PAT_ALL_REPOS }}
       run: |
-        echo "-- 1 --"
+        echo "-- base dir --"
         ls -lrt -d -1 "$PWD"/{*,.*}
         git clone https://x-access-token:${{ secrets.PC_PAT_ALL_REPOS }}@github.com/yale-redcap/yes3-dashboard-docs.git
         cd yes3-dashboard-docs
-        echo "-- 2 --"
+        echo "-- yes3-dashboard-docs --"
         ls -lrt -d -1 "$PWD"/{*,.*}
         branch_name=sync-changes-$(date +%Y%m%d%H%M%S)
         git checkout -b $branch_name
-        cp /home/runner/work/yes3-powershell-scripts/yes3-powershell-scripts/source-repo/session-install.ps1 .
+        cd ../source-repo
+        echo "--source-repo --"
+        ls -lrt -d -1 "$PWD"/{*,.*}
+        cd ../yes3-dashboard-docs
+        cp -f ../source-repo/session-install.ps1 .
         echo "-- 3 --"
         ls -lrt -d -1 "$PWD"/{*,.*}
         git add session-install.ps1
