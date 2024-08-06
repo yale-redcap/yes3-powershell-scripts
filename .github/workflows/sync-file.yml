@@ -38,11 +38,14 @@ jobs:
         PAT: ${{ secrets.PC_PAT_ALL_REPOS }}
       run: |
         git clone https://x-access-token:${{ secrets.PC_PAT_ALL_REPOS }}@github.com/yale-redcap/yes3-dashboard-docs.git
+        ls
         cd ~/yes3-dashboard-docs
+        ls
         branch_name=sync-changes-$(date +%Y%m%d%H%M%S)
         git checkout -b $branch_name
-        cp ~/source-repo/session-install.ps1 .
+        cp /home/runner/work/yes3-powershell-scripts/yes3-powershell-scripts/source-repo/session-install.ps1 .
         git add session-install.ps1
+        git add --all
         git commit -m "Sync file from yes3-powershell-scripts repository"
         git push --set-upstream origin $branch_name
 
