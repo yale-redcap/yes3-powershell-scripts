@@ -1,4 +1,4 @@
-name: copy install-session.ps1 to selected repos
+name: Sync File to Targets
 
 on:
   push:
@@ -44,26 +44,29 @@ jobs:
         git checkout -b $branch_name
         cp -f ../source-repo/session-install.ps1 .
         git add session-install.ps1
-        git commit -m "Sync file from yes3-powershell-scripts repository"
-        git push --set-upstream origin $branch_name
-
-        # Create a new pull request and capture the output
-        pr_output=$(gh pr create --title "Sync file from yes3-powershell-scripts" --body "Automated sync of session-install.ps1 file." --base main --head $branch_name)
-
-        # Extract the pull request URL
-        pr_url=$(echo "$pr_output" | grep -o 'https://github.com/[^\"]*')
         
-        # Extract the pull request number from the URL
-        pr_number=$(echo $pr_url | awk -F'/' '{print $NF}')
-        
-        # Add a comment to the pull request
-        gh pr comment $pr_number --body "Automatically merged by GitHub Actions."
+        # Check if there are changes to be committed
+        if git diff-index --quiet HEAD; then
+          echo "No changes to commit"
+        else
+          git commit -m "Sync file from yes3-powershell-scripts repository"
+          git push --set-upstream origin $branch_name
 
-        # Merge the pull request
-        gh pr merge $pr_number --merge
+          # Create a new pull request and capture the output
+          pr_output=$(gh pr create --title "Sync file from yes3-powershell-scripts" --body "Automated sync of session-install.ps1 file." --base main --head $branch_name)
 
-        # Delete the branch
-        gh api -X DELETE "repos/yale-redcap/yes3-dashboard-docs/git/refs/heads/$branch_name"
+          # Extract the pull request URL
+          pr_url=$(echo "$pr_output" | grep -o 'https://github.com/[^\"]*')
+          
+          # Extract the pull request number from the URL
+          pr_number=$(echo $pr_url | awk -F'/' '{print $NF}')
+          
+          # Add a comment to the pull request
+          gh pr comment $pr_number --body "Automatically merged by GitHub Actions."
 
-        cd ..
-        rm -rf yes3-dashboard-docs
+          # Merge the pull request
+          gh pr merge $pr_number --merge
+
+          # Delete the branch
+          gh api -X DELETE "repos/yale-redcap/yes3-dashboard-docs/git/refs/heads/$branch_name"
+        fi
