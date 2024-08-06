@@ -1,5 +1,5 @@
 # Function to download a script from GitHub
-# Aug 5 2024 PC
+# August 5 2024 PC
 function Invoke-DownloadScriptFromGitHub {
     param (
         [string]$scriptName,
