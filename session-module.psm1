@@ -71,7 +71,7 @@ function Start-Session {
         Write-Host "Failed to pull the latest changes from the main branch. There may be unstashed changes or the local branch might be ahead of the remote branch."  -ForegroundColor Red
 
         # Prompt the user for approval to perform a hard reset
-        $confirmation = Read-Host "Do you want to perform a hard reset on the main branch? This will discard all local changes. Type 'yes' to confirm" -ForegroundColor White
+        $confirmation = Read-Host "Do you want to perform a hard reset on the main branch? This will discard all local changes. Type 'yes' to confirm"
 
         if ($confirmation -eq "yes") {
             git reset --hard origin/main
@@ -184,7 +184,7 @@ function Undo-Session {
     }
 
     # Prompt for confirmation
-    $confirmation = Read-Host "Are you sure you want to remove the session branch '$sessionBranch'? This action cannot be undone. Type 'yes' to confirm" -ForegroundColor White
+    $confirmation = Read-Host "Are you sure you want to remove the session branch '$sessionBranch'? This action cannot be undone. Type 'yes' to confirm"
 
     if ($confirmation -ne "yes") {
         Write-Host "Operation cancelled by the user. Exiting." -ForegroundColor Cyan
