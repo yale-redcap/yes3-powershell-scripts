@@ -1,4 +1,7 @@
 # Function to download a script from GitHub
+
+$version = "1.0.2"
+
 # August 6 2024 PC
 function Invoke-DownloadScriptFromGitHub {
     param (
@@ -58,23 +61,16 @@ if ( $profileContent -notmatch [regex]::Escape("$modulePath") ){
     Write-Host "Import-Module statement for $modulePath already exists in profile script."
 }
 
-$successMessage = @"
 
-The latest version of the session function library has been installed.
+if ( $profileContent -notmatch [regex]::Escape("$modulePath") ){
+    Add-Content -Path $profilePath -Value "Import-Module `"$modulePath`""
+    Write-Host "Added Import-Module statement for $modulePath"
+}
 
-After you restart your PowerShell session, you can use the following commands:
 
-- Start-Session:    Create and checkout a new session branch
-                    so you can start editing files.
+if ( $profileContent -notmatch "Show-Version" ){
+    Add-Content -Path $profilePath -Value "Show-Version"
+    Write-Host "Added Show-Version statement for $modulePath"
+}
 
-- Complete-Session: Stage and commit all changes, 
-                    push the session branch to the remote repository, 
-                    and switch back to the local main branch.
-
-- Undo-Session:     Remove the session branch and abandon changes.
-
-- Get-SessionCommands: Display the available session commands.
-
-"@
-
-Write-Host $successMessage
+Write-Host "Session cmdlets version $version will be available after you close and reopen Powershell." -ForegroundColor DarkCyan
