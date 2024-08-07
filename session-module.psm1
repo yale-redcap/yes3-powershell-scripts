@@ -2,7 +2,7 @@ $version = "1.0.2"
 $versionDate = "August 2024"
 
 function Show-Version {
-    Write-Host "YES3 session scripts version $version ($versionDate)" -ForegroundColor Cyan
+    Write-Host "YES3 session cmdlets version $version ($versionDate)" -ForegroundColor Cyan
 }
 
 function Get-DadJoke {
@@ -56,7 +56,7 @@ function Start-Session {
     $existingSessionBranch = [System.Environment]::GetEnvironmentVariable($envVarName, [System.EnvironmentVariableTarget]::User)
 
     if (-not [string]::IsNullOrWhiteSpace($existingSessionBranch)) {
-        Write-Host "A session is already in progress with branch: $existingSessionBranch. Exiting."
+        Write-Host "A session is already in progress with branch: $existingSessionBranch. Exiting."  -ForegroundColor Red
         return 1
     }
 
@@ -68,16 +68,16 @@ function Start-Session {
         git checkout main
         git pull origin main
     } catch {
-        Write-Host "Failed to pull the latest changes from the main branch. There may be unstashed changes or the local branch might be ahead of the remote branch."
+        Write-Host "Failed to pull the latest changes from the main branch. There may be unstashed changes or the local branch might be ahead of the remote branch."  -ForegroundColor Red
 
         # Prompt the user for approval to perform a hard reset
-        $confirmation = Read-Host "Do you want to perform a hard reset on the main branch? This will discard all local changes. Type 'yes' to confirm"
+        $confirmation = Read-Host "Do you want to perform a hard reset on the main branch? This will discard all local changes. Type 'yes' to confirm" -ForegroundColor White
 
         if ($confirmation -eq "yes") {
             git reset --hard origin/main
-            Write-Host "Hard reset performed on the main branch."
+            Write-Host "Hard reset performed on the main branch." -ForegroundColor Greed
         } else {
-            Write-Host "Operation cancelled by the user. Exiting."
+            Write-Host "Operation cancelled by the user. Exiting."  -ForegroundColor Cyan
             return 1
         }
     }
@@ -100,9 +100,9 @@ function Start-Session {
     # Try to create and switch to the new session branch
     try {
         git checkout -b $sessionBranch
-        Write-Host "Editing session started."
+        Write-Host "Editing session started." -ForegroundColor Cyan
     } catch {
-        Write-Host "Branch '$sessionBranch' already exists. Exiting."
+        Write-Host "Branch '$sessionBranch' already exists. Exiting." -ForegroundColor Red
         return 1
     }
 }
@@ -117,7 +117,7 @@ function Complete-Session {
 
     # Check if a session branch name was retrieved
     if ([string]::IsNullOrWhiteSpace($sessionBranch)) {
-        Write-Host "No session branch for '$envVarName' found. Make sure to run the start-session script first. Exiting."
+        Write-Host "No session branch for '$envVarName' found. Make sure to run the start-session script first. Exiting." -ForegroundColor Red
         return 1
     }
 
@@ -166,7 +166,7 @@ function Complete-Session {
     # Reset the main branch to match the remote main branch exactly
     git reset --hard origin/main
 
-    Write-Host "Editing session completed. The main branch is checked out and reset to the remote state."
+    Write-Host "Editing session completed. The main branch is checked out and reset to the remote state." -ForegroundColor Cyan
 }
 
 function Undo-Session {
@@ -179,15 +179,15 @@ function Undo-Session {
 
     # Check if a session branch name was retrieved
     if ([string]::IsNullOrWhiteSpace($sessionBranch)) {
-        Write-Host "No session branch for '$envVarName' found. Exiting."
+        Write-Host "No session branch for '$envVarName' found. Exiting." -ForegroundColor Red
         return 1
     }
 
     # Prompt for confirmation
-    $confirmation = Read-Host "Are you sure you want to remove the session branch '$sessionBranch'? This action cannot be undone. Type 'yes' to confirm"
+    $confirmation = Read-Host "Are you sure you want to remove the session branch '$sessionBranch'? This action cannot be undone. Type 'yes' to confirm" -ForegroundColor White
 
     if ($confirmation -ne "yes") {
-        Write-Host "Operation cancelled by the user. Exiting."
+        Write-Host "Operation cancelled by the user. Exiting." -ForegroundColor Cyan
         return 1
     }
 
@@ -200,9 +200,9 @@ function Undo-Session {
     # Delete the session branch
     try {
         git branch -D $sessionBranch
-        Write-Host "Deleted session branch: $sessionBranch"
+        Write-Host "Deleted session branch: $sessionBranch" -ForegroundColor Cyan
     } catch {
-        Write-Host "Failed to delete session branch '$sessionBranch'. It may not exist. Exiting."
+        Write-Host "Failed to delete session branch '$sessionBranch'. It may not exist. Exiting." -ForegroundColor Red
         return 1
     }
 
@@ -212,7 +212,7 @@ function Undo-Session {
     # Reset the main branch to match the remote main branch exactly
     git reset --hard origin/main
 
-    Write-Host "Session removed. The main branch is checked out and reset to the remote state."
+    Write-Host "Session removed. The main branch is checked out and reset to the remote state." -ForegroundColor Cyan
 }
 
 function Get-SessionCommands {
