@@ -1,8 +1,8 @@
 $version = "1.0.2"
-$versionDate = "August 7, 2024"
+$versionDate = "August 2024"
 
 function Show-Version {
-    Write-Host "YES3 session scripts  version $version ($versionDate)" -ForegroundColor Cyan
+    Write-Host "YES3 session scripts version $version ($versionDate)" -ForegroundColor Cyan
 }
 
 function Get-DadJoke {
