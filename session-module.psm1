@@ -13,12 +13,12 @@ function Get-DadJoke {
     return $response.joke
 }
 
-function Get-LeafElement{
+function Get-repoName{
     
-    $leafElement = Split-Path -Leaf (Get-Location)
-    $leafElement = $leafElement -replace "[- ]", "_"
-    $leafElement = $leafElement -replace "[^a-zA-Z0-9_]", ""
-    return $leafElement
+    $repoName = Split-Path -Leaf (Get-Location)
+    $repoName = $repoName -replace "[- ]", "_"
+    $repoName = $repoName -replace "[^a-zA-Z0-9_]", ""
+    return $repoName
 }
 
 # Function to get the current timestamp and convert it to base 36
@@ -43,8 +43,8 @@ function Get-Base36Timestamp {
 
 # Function to get the current session branch environment variable name
 function Get-SessionBranchEnvVarName {
-    $envVarLeafElement = Get-LeafElement
-    return "SESSION_BRANCH_$envVarLeafElement".ToUpper()
+    $envVarRepoName = Get-repoName
+    return "SESSION_BRANCH_$envVarRepoName".ToUpper()
 }
 
 function Start-Session {
@@ -87,14 +87,14 @@ function Start-Session {
     # Retrieve the Windows username
     $username = $env:USERNAME
 
-    $leafElement = Get-LeafElement
+    $repoName = Get-repoName
 
     # Get the base 36 encoded current timestamp
     $base36Timestamp = Get-Base36Timestamp
 
     # Generate the session branch name
-    $sessionBranch = "$username-$leafElement-$base36Timestamp".ToLower()
-    # $sessionBranch = "$leafElement-$base36Timestamp"
+    $sessionBranch = "$username-$repoName-$base36Timestamp".ToLower()
+    # $sessionBranch = "$repoName-$base36Timestamp"
 
     # Set the session branch name as an environment variable
     [System.Environment]::SetEnvironmentVariable($envVarName, $sessionBranch, [System.EnvironmentVariableTarget]::User)
@@ -233,4 +233,4 @@ function Get-SessionCommands {
 }
 
 # Export functions
-Export-ModuleMember -Function Show-Version, Get-DadJoke, Get-LeafElement, Get-Base36Timestamp, Get-SessionBranchEnvVarName, Start-Session, Complete-Session, Undo-Session, Get-SessionCommands
+Export-ModuleMember -Function Show-Version, Get-DadJoke, Get-repoName, Get-Base36Timestamp, Get-SessionBranchEnvVarName, Start-Session, Complete-Session, Undo-Session, Get-SessionCommands

@@ -44,7 +44,6 @@ jobs:
           "yale-redcap/yes3-dashboard-docs"
           "yale-redcap/yes3-document-writer-guide"
           "yale-redcap/yes3-exporter-1.0-docs"
-          "yale-redcap/yes3-record-dashboard"
         )
 
         for repo in "${target_repos[@]}"; do
