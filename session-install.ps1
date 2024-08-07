@@ -72,5 +72,4 @@ if ( $profileContent -notmatch "Show-Version" ){
     Add-Content -Path $profilePath -Value "Show-Version"
     Write-Host "Added Show-Version statement for $modulePath"
 }
-
 Write-Host "Session cmdlets version $version will be available after you close and reopen Powershell." -ForegroundColor DarkCyan
