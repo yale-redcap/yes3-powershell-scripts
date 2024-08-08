@@ -8,7 +8,8 @@ function Show-Version {
 function Get-DadJoke {
     $headers = @{ Accept = "application/json" }
     $response = Invoke-RestMethod -Uri "https://icanhazdadjoke.com/" -Headers $headers
-    return $response.joke
+    Write-Host $response.joke -ForegroundColor Magenta
+    return
 }
 
 function Get-repoName{
@@ -219,15 +220,15 @@ function Get-SessionCommands {
 
     Show-Version
 
-    Write-Host "`nAvailable session commands:`n"
-    Write-Host "  - Start-Session:    Create and checkout a new session branch"
-    Write-Host "                      so you can start editing files.`n"
-    Write-Host "  - Complete-Session: Stage and commit all changes,"
-    Write-Host "                      push the session branch to the remote repository,"
-    Write-Host "                      and switch back to the local main branch.`n"
-    Write-Host "  - Undo-Session:     Remove the session branch and abandon changes`n"
-    Write-Host "  - Get-DadJoke:      Does what you think it does`n"
-    Write-Host "  - Get-SessionCommands:    Display this list of available session commands`n"
+    Write-Host "`nAvailable session commands:`n" -ForegroundColor Magenta
+    Write-Host "  - Start-Session:    Create and checkout a new session branch" -ForegroundColor Magenta
+    Write-Host "                      so you can start editing files.`n" -ForegroundColor Magenta
+    Write-Host "  - Complete-Session: Stage and commit all changes," -ForegroundColor Magenta
+    Write-Host "                      push the session branch to the remote repository," -ForegroundColor Magenta
+    Write-Host "                      and switch back to the local main branch.`n" -ForegroundColor Magenta
+    Write-Host "  - Undo-Session:     Remove the session branch and abandon changes`n" -ForegroundColor Magenta
+    Write-Host "  - Get-DadJoke:      Does what you think it does`n" -ForegroundColor Magenta
+    Write-Host "  - Get-SessionCommands:    Display this list of available session commands`n" -ForegroundColor Magenta
 }
 
 # Export functions
