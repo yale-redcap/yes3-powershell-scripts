@@ -76,9 +76,9 @@ function Start-Session {
 
         if ($confirmation -eq "yes") {
             git reset --hard origin/main
-            Write-Host "Hard reset performed on the main branch." -ForegroundColor Greed
+            Write-Host "Hard reset performed on the main branch." -ForegroundColor Green
         } else {
-            Write-Host "Operation cancelled by the user. Exiting."  -ForegroundColor Cyan
+            Write-Host "Operation cancelled by the user. Exiting."  -ForegroundColor DarkYellow
             return 1
         }
     }
@@ -101,7 +101,7 @@ function Start-Session {
     # Try to create and switch to the new session branch
     try {
         git checkout -b $sessionBranch
-        Write-Host "Editing session started." -ForegroundColor Cyan
+        Write-Host "Editing session started." -ForegroundColor Green
     } catch {
         Write-Host "Branch '$sessionBranch' already exists. Exiting." -ForegroundColor Red
         return 1
@@ -157,7 +157,7 @@ function Complete-Session {
         # If push is successful, remove the session branch environment variable
         [System.Environment]::SetEnvironmentVariable($envVarName, $null, [System.EnvironmentVariableTarget]::User)
     } catch {
-        Write-Host "Failed to push branch '$sessionBranch'. Exiting."
+        Write-Host "Failed to push branch '$sessionBranch'. Exiting." -ForegroundColor Red
         return 1
     }
 
@@ -167,7 +167,7 @@ function Complete-Session {
     # Reset the main branch to match the remote main branch exactly
     git reset --hard origin/main
 
-    Write-Host "Editing session completed. The main branch is checked out and reset to the remote state." -ForegroundColor Cyan
+    Write-Host "Editing session completed. The main branch is checked out and reset to the remote state." -ForegroundColor Green
 }
 
 function Undo-Session {
@@ -188,7 +188,7 @@ function Undo-Session {
     $confirmation = Read-Host "Are you sure you want to remove the session branch '$sessionBranch'? This action cannot be undone. Type 'yes' to confirm"
 
     if ($confirmation -ne "yes") {
-        Write-Host "Operation cancelled by the user. Exiting." -ForegroundColor Cyan
+        Write-Host "Operation cancelled by the user. Exiting." -ForegroundColor DarkYellow
         return 1
     }
 
@@ -213,7 +213,7 @@ function Undo-Session {
     # Reset the main branch to match the remote main branch exactly
     git reset --hard origin/main
 
-    Write-Host "Session removed. The main branch is checked out and reset to the remote state." -ForegroundColor Cyan
+    Write-Host "Session removed. The main branch is checked out and reset to the remote state." -ForegroundColor Green
 }
 
 function Update-GitBranch {
