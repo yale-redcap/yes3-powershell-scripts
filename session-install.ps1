@@ -61,12 +61,15 @@ if ( $profileContent -notmatch [regex]::Escape("$modulePath") ){
     Write-Host "Import-Module statement for $modulePath already exists in profile script."
 }
 
-
 if ( $profileContent -notmatch [regex]::Escape("$modulePath") ){
     Add-Content -Path $profilePath -Value "Import-Module `"$modulePath`""
     Write-Host "Added Import-Module statement for $modulePath"
 }
 
+if ( $profileContent -notmatch "Update-GitBranch" ){
+    Add-Content -Path $profilePath -Value "Update-GitBranch"
+    Write-Host "Added Update-GitBranch statement for $modulePath"
+}
 
 if ( $profileContent -notmatch "Show-Version" ){
     Add-Content -Path $profilePath -Value "Show-Version"

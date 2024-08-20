@@ -216,6 +216,51 @@ function Undo-Session {
     Write-Host "Session removed. The main branch is checked out and reset to the remote state." -ForegroundColor Cyan
 }
 
+function Update-GitBranch {
+    # Check if current directory is inside a Git repository
+    $insideGitRepo = & git rev-parse --is-inside-work-tree 2>$null
+
+    if ($insideGitRepo -eq "true") {
+        # Get the current checked-out branch
+        $currentBranch = & git rev-parse --abbrev-ref HEAD
+
+        # Check if the current branch is 'main' or 'master'
+        if ($currentBranch -eq "main" -or $currentBranch -eq "master") {
+            Write-Host "You are on the '$currentBranch' branch. Checking for updates..."
+
+            # Fetch remote metadata
+            & git fetch --all
+
+            Write-Host "Attempting to pull the $currentBranch branch..."
+            $pullResult = & git pull origin $currentBranch 2>&1
+
+            if ($LASTEXITCODE -ne 0) {
+                Write-Warning "Failed to pull the $currentBranch branch. Analyzing the status..."
+                
+                # Get the status and commits ahead/behind information
+                $status = & git status --porcelain=2 --branch
+                $aheadBehindInfo = $status | Select-String -Pattern "ahead|behind"
+
+                if ($aheadBehindInfo) {
+                    Write-Warning "Warning: Your local $currentBranch branch is out of sync with the remote branch." -ForegroundColor Red
+                    Write-Warning $aheadBehindInfo
+                } else {
+                    Write-Warning "Warning: Unable to determine the sync status. Manual intervention might be required." -ForegroundColor Red
+                }
+            } else {
+                Write-Host "Successfully pulled the latest changes for the $currentBranch branch." -ForegroundColor Green
+            }
+        } else {
+            Write-Host "Note: The current branch is '$currentBranch'. No pull action performed." -ForegroundColor DarkYellow
+        }
+    } else {
+        Write-Host "Check-GitBranchAndUpdate: Not inside a Git repository. No actions taken." -ForegroundColor DarkYellow
+    }
+}
+
+# Call the function from your profile script
+Check-GitBranchAndUpdate
+
 function Get-SessionCommands {
 
     Show-Version
@@ -232,4 +277,4 @@ function Get-SessionCommands {
 }
 
 # Export functions
-Export-ModuleMember -Function Show-Version, Get-DadJoke, Get-repoName, Get-Base36Timestamp, Get-SessionBranchEnvVarName, Start-Session, Complete-Session, Undo-Session, Get-SessionCommands
+Export-ModuleMember -Function Show-Version, Get-DadJoke, Get-repoName, Get-Base36Timestamp, Get-SessionBranchEnvVarName, Start-Session, Complete-Session, Undo-Session, Get-SessionCommands, Update-GitBranch
