@@ -1,6 +1,6 @@
 # Function to download a script from GitHub
 
-$version = "1.0.2"
+$version = "1.0.3"
 
 # August 6 2024 PC
 function Invoke-DownloadScriptFromGitHub {
