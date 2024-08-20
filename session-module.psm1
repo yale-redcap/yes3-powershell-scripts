@@ -258,9 +258,6 @@ function Update-GitBranch {
     }
 }
 
-# Call the function from your profile script
-Check-GitBranchAndUpdate
-
 function Get-SessionCommands {
 
     Show-Version
