@@ -61,14 +61,14 @@ if ( $profileContent -notmatch [regex]::Escape("$modulePath") ){
     Write-Host "Import-Module statement for $modulePath already exists in profile script."
 }
 
-if ( $profileContent -notmatch "Update-GitBranch" ){
-    Add-Content -Path $profilePath -Value "Update-GitBranch"
-    Write-Host "Added Update-GitBranch statement for $modulePath"
-}
-
 if ( $profileContent -notmatch "Show-Version" ){
     Add-Content -Path $profilePath -Value "Show-Version"
     Write-Host "Added Show-Version statement for $modulePath"
+}
+
+if ( $profileContent -notmatch "Update-GitBranch" ){
+    Add-Content -Path $profilePath -Value "Update-GitBranch"
+    Write-Host "Added Update-GitBranch statement for $modulePath"
 }
 
 Write-Host "Session cmdlets version $version will be available after you close and reopen Powershell." -ForegroundColor DarkCyan
