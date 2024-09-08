@@ -8,7 +8,7 @@ The YES3 Powershell scripts are stored in the public GitHub repository <a href="
 
 ## The YES3 Powershell scripts
 
-There are two YES3 PowerShell scripts, as described in the following table.
+There are two YES3 PowerShell scripts, as described in this section.
 
 ### session-install.ps1 
 
