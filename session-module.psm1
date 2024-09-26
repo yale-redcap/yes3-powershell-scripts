@@ -235,17 +235,17 @@ function Update-GitBranch {
             $pullResult = & git pull origin $currentBranch 2>&1
 
             if ($LASTEXITCODE -ne 0) {
-                Write-Warning "Failed to pull the $currentBranch branch. Analyzing the status..."
+                Write-Host "Failed to pull the $currentBranch branch. Analyzing the status..." -ForegroundColor Red
                 
                 # Get the status and commits ahead/behind information
                 $status = & git status --porcelain=2 --branch
                 $aheadBehindInfo = $status | Select-String -Pattern "ahead|behind"
 
                 if ($aheadBehindInfo) {
-                    Write-Warning "Warning: Your local $currentBranch branch is out of sync with the remote branch." -ForegroundColor Red
+                    Write-Host "Warning: Your local $currentBranch branch is out of sync with the remote branch." -ForegroundColor Red
                     Write-Warning $aheadBehindInfo
                 } else {
-                    Write-Warning "Warning: Unable to determine the sync status. Manual intervention might be required." -ForegroundColor Red
+                    Write-Host "Warning: Unable to determine the sync status. Manual intervention might be required." -ForegroundColor Red
                 }
             } else {
                 Write-Host "Successfully pulled the latest changes for the $currentBranch branch." -ForegroundColor Green
