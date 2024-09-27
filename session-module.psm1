@@ -1,5 +1,5 @@
-$version = "1.0.3"
-$versionDate = "August 2024"
+$version = "1.0.4"
+$versionDate = "September 2024"
 
 function Show-Version {
     Write-Host "YES3 session cmdlets version $version ($versionDate)" -ForegroundColor Cyan
